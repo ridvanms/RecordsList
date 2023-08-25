@@ -1,0 +1,51 @@
+
+{%extends 'base.html'%}
+
+{%block content%}
+
+        <br/>
+        {%if user.is_authenticated%}
+
+            <h1>Records... </h1>
+            {% if  records %}
+                <table class=" table table-striped-columns table-hover table-bordered ">
+                  <thead class="table-dark">
+                    <tr >
+                      <th >Name</th>
+                      <th >Email</th>
+                      <th >ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for record in records %}
+                        <tr>
+                            <td>{{record.first_name}} {{record.last_name}}</td>
+                            <td>{{record.email}}</td>
+                            <td><a class="nav-link" href="{% url 'record' record.id %}" >{{record.id}}</a></td>
+                        </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+
+            {% else %}
+                <span>There is no records!</span>
+            {%endif%}
+        {%else%}
+
+                <h1>LogIn</h1>
+                <form method="POST" action="{% url 'home' %}">
+                    {% csrf_token %}
+                  <div class="mb-3">
+                   <input type="text" class="form-control" name="username" placeholder="Username" required>
+                  </div>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">LogIn</button>
+                </form>
+        {%endif%}
+{%endblock%}
